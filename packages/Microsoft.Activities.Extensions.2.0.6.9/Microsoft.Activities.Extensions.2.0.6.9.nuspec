@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Microsoft.Activities.Extensions</id>
+    <version>2.0.6.9</version>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <licenseUrl>http://wf.codeplex.com/license</licenseUrl>
+    <projectUrl>http://wf.codeplex.com/</projectUrl>
+    <iconUrl>http://blogs.msdn.com/cfs-filesystemfile.ashx/__key/communityserver-blogs-components-weblogfiles/00-00-00-28-88-metablogapi/3362.WF100x100_5F00_65741552.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Provides useful extension methods, alternate Task based API and activities.</description>
+    <summary>Windows Workflow Foundation extensions and activities</summary>
+    <tags>WF WF4 Workflow</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Activities" targetFramework="" />
+    </frameworkAssemblies>
+    <references>
+      <reference file="Microsoft.Activities.Extensions.Design.dll" />
+      <reference file="Microsoft.Activities.Extensions.dll" />
+    </references>
+  </metadata>
+</package>

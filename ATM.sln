@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATM.Web", "ATM.Web\ATM.Web.csproj", "{5161ED00-64C1-40E9-9609-F048A480A28C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATM.Core", "ATM.Core\ATM.Core.csproj", "{0F7448A7-E34C-4BD4-A4A6-42E5939963BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{455FD3D7-AAFA-4759-B924-C87D5A3F0448}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATM.Core.Services", "ATM.Core.Services\ATM.Core.Services.csproj", "{C5F43FEE-098A-48DD-B7FB-73309CC1CE57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATM.Data.Raven", "ATM.Data.Raven\ATM.Data.Raven.csproj", "{4CE92983-FEA1-4A44-8ACC-DABF0D6D786E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4C47F284-0EA7-478B-A915-C697E667B4FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATM.Strategies.Workflows", "ATM.Strategies.Workflows\ATM.Strategies.Workflows.csproj", "{98EC024C-6439-44B1-8B1E-29E457B2201F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATM.Strategies.Workflows.Tests", "ATM.Strategies.Workflows.Tests\ATM.Strategies.Workflows.Tests.csproj", "{6F6A45C6-143F-4C3B-A60A-4926B55E6191}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5161ED00-64C1-40E9-9609-F048A480A28C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5161ED00-64C1-40E9-9609-F048A480A28C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5161ED00-64C1-40E9-9609-F048A480A28C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5161ED00-64C1-40E9-9609-F048A480A28C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F7448A7-E34C-4BD4-A4A6-42E5939963BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F7448A7-E34C-4BD4-A4A6-42E5939963BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F7448A7-E34C-4BD4-A4A6-42E5939963BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F7448A7-E34C-4BD4-A4A6-42E5939963BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5F43FEE-098A-48DD-B7FB-73309CC1CE57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5F43FEE-098A-48DD-B7FB-73309CC1CE57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5F43FEE-098A-48DD-B7FB-73309CC1CE57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5F43FEE-098A-48DD-B7FB-73309CC1CE57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CE92983-FEA1-4A44-8ACC-DABF0D6D786E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CE92983-FEA1-4A44-8ACC-DABF0D6D786E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CE92983-FEA1-4A44-8ACC-DABF0D6D786E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CE92983-FEA1-4A44-8ACC-DABF0D6D786E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98EC024C-6439-44B1-8B1E-29E457B2201F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98EC024C-6439-44B1-8B1E-29E457B2201F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98EC024C-6439-44B1-8B1E-29E457B2201F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98EC024C-6439-44B1-8B1E-29E457B2201F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F6A45C6-143F-4C3B-A60A-4926B55E6191}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F6A45C6-143F-4C3B-A60A-4926B55E6191}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F6A45C6-143F-4C3B-A60A-4926B55E6191}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F6A45C6-143F-4C3B-A60A-4926B55E6191}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6F6A45C6-143F-4C3B-A60A-4926B55E6191} = {4C47F284-0EA7-478B-A915-C697E667B4FC}
+	EndGlobalSection
+EndGlobal
