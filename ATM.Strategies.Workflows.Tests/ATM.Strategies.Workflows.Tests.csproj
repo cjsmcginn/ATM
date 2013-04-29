@@ -48,6 +48,7 @@
     <Reference Include="System.Activities" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.DurableInstancing" />
     <Reference Include="System.ServiceModel.Activities" />
     <Reference Include="System.Workflow.Activities" />
     <Reference Include="System.Workflow.Runtime" />
@@ -74,9 +75,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ATM.Core.Services\ATM.Core.Services.csproj">
+      <Project>{c5f43fee-098a-48dd-b7fb-73309cc1ce57}</Project>
+      <Name>ATM.Core.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ATM.Core\ATM.Core.csproj">
       <Project>{0f7448a7-e34c-4bd4-a4a6-42e5939963bc}</Project>
       <Name>ATM.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ATM.Data.Raven\ATM.Data.Raven.csproj">
+      <Project>{4ce92983-fea1-4a44-8acc-dabf0d6d786e}</Project>
+      <Name>ATM.Data.Raven</Name>
     </ProjectReference>
     <ProjectReference Include="..\ATM.Strategies.Workflows\ATM.Strategies.Workflows.csproj">
       <Project>{98ec024c-6439-44b1-8b1e-29e457b2201f}</Project>

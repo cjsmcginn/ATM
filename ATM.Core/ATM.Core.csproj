@@ -40,10 +40,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Quote.cs" />
+    <Compile Include="Domain\WorkflowInstance.cs" />
     <Compile Include="Extensions\DomainExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IDataService.cs" />
     <Compile Include="Services\IQuoteService.cs" />
+    <Compile Include="Services\IWorkflowInstanceService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
