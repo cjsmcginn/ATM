@@ -12,5 +12,6 @@ namespace ATM.Core.Services
         T Execute<Q, T>(Func<Q, T> operation);
         T Fetch<T>(Func<T, bool> predicate);
         List<T> FetchAll<T>(Func<T, bool> predicate);
+        T Load<T>(Guid id);
     }
 }

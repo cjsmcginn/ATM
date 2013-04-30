@@ -33,11 +33,21 @@ namespace ATM.Data.Raven
 
 
         }
+        public T Load<T>(Guid id)
+        {
+            Func<DocumentSession, T> execution = (session) =>
+                {
+                    return session.Load<T>(id.ToString());
+                };
+            var result = Execute<DocumentSession, T>(execution);
+            return result;
+        }
         public T Fetch<T>(Func<T, bool> predicate)
         {
 
             Func<DocumentSession, T> execution = (session) =>
-            {
+            {               
+               
                 return session.Advanced.LuceneQuery<T>().SingleOrDefault<T>(predicate);
             };
             var result = Execute<DocumentSession, T>(execution);

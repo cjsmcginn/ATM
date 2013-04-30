@@ -54,7 +54,7 @@ namespace ATM.Strategies.Workflows
                 var instance = _workflowInstanceService.GetById(ownerInstanceID);
                 try
                 {
-                    data = LoadInstanceData(instance.InstanceData);
+                    data = LoadInstanceData(XDocument.Parse(instance.InstanceData));
                     context.LoadedInstance(InstanceState.Initialized, data, null, null, null);
                 }
                 catch (Exception exception)
@@ -77,8 +77,8 @@ namespace ATM.Strategies.Workflows
             var instance = _workflowInstanceService.GetById(ownerInstanceID);
             if (instance == null)            
                 instance = _workflowInstanceService.CreateWorkflowInstance(ownerInstanceID);
-
-            XElement instanceValues = instance.InstanceData.Element("InstanceValues");
+            var doc = XDocument.Parse(instance.InstanceData);
+            XElement instanceValues = doc.Element("InstanceValues");
 
             foreach (KeyValuePair<XName, InstanceValue> valPair in instanceData)
             {
@@ -90,7 +90,8 @@ namespace ATM.Strategies.Workflows
                 XElement newValue = SerializeObject("value", valPair.Value.Value);
                 newInstance.Add(newValue);
 
-                instanceValues.Add(newInstance);              
+                instanceValues.Add(newInstance);
+                instance.InstanceData = instanceValues.ToString();
             }
             _workflowInstanceService.Save(instance);
         }
@@ -120,7 +121,9 @@ namespace ATM.Strategies.Workflows
             object deserializedObject = null;
 
             MemoryStream stm = new MemoryStream();
-            XmlDictionaryWriter wtr = XmlDictionaryWriter.CreateTextWriter(stm);
+            //var x = new StringReader(element.ToString());
+            var sb = new StringBuilder();
+            var wtr = XmlWriter.Create(sb);
             element.WriteTo(wtr);
             wtr.Flush();
             stm.Position = 0;
@@ -140,7 +143,7 @@ namespace ATM.Strategies.Workflows
             s.Serialize(stm, o);
             stm.Position = 0;
             StreamReader rdr = new StreamReader(stm);
-            result.Value = rdr.ReadToEnd();
+            result.Add(XElement.Parse(rdr.ReadToEnd()));
             return result;
         }
         #endregion

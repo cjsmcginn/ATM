@@ -69,5 +69,22 @@ namespace ATM.Strategies.Workflows.Tests
             
             
         }
+
+        [TestMethod]
+        public void TestLoad()
+        {
+            var id = new Guid("5da8d0ca-92ad-4d28-b6e3-45fc22fdd94e");
+            IDataService ds = new RavenDataService();
+            IWorkflowInstanceService workflowInstanceService = new WorkflowInstanceService(ds);
+            var store = new WorkflowInstanceStore(workflowInstanceService,id);
+            var activity = new ATM.Strategies.Workflows.Persistence();
+
+            
+            var wfa = WorkflowApplicationTest.Create<ATM.Strategies.Workflows.Persistence>(activity);
+            wfa.InstanceStore = store;
+            wfa.Load(id, new TimeSpan(1000));
+
+           
+        }
     }
 }

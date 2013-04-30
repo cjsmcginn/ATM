@@ -24,8 +24,9 @@ namespace ATM.Core.Services
 
         public WorkflowInstance GetById(Guid id)
         {
-            var key = id.ToString();
-            return _dataService.Fetch<WorkflowInstance>((w) => { return w.Id == key; });
+
+            return _dataService.Load<WorkflowInstance>(id);
+            
          
         }
 
@@ -34,7 +35,7 @@ namespace ATM.Core.Services
             var doc = new XDocument();
             var instanceValues = new XElement("InstanceValues");
             doc.Add(instanceValues);
-            var result = new WorkflowInstance { Id = id.ToString(), InstanceData=doc };
+            var result = new WorkflowInstance { Id = id.ToString(), InstanceData=doc.ToString() };
             return result;
         }
 

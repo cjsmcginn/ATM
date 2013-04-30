@@ -10,6 +10,6 @@ namespace ATM.Core.Domain
     public class WorkflowInstance
     {
         public string Id { get; set; }
-        public XDocument InstanceData { get; set; }
+        public string InstanceData { get; set; }
     }
 }
