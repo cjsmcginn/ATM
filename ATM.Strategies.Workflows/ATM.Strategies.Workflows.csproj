@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="AsyncResult.cs" />
     <Compile Include="CompletedAsyncResult.cs" />
+    <Compile Include="HandleQuote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TAExtensions.cs" />
     <Compile Include="WorkflowInstanceStore.cs" />

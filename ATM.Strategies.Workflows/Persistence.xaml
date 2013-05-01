@@ -34,51 +34,78 @@
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>System.Core</AssemblyReference>
       <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Runtime.DurableInstancing</AssemblyReference>
       <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
       <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.WorkflowServices</AssemblyReference>
       <AssemblyReference>System.Xaml</AssemblyReference>
       <AssemblyReference>System.Xml</AssemblyReference>
       <AssemblyReference>System.Xml.Linq</AssemblyReference>
       <AssemblyReference>TA-Lib-Core</AssemblyReference>
       <AssemblyReference>ATM.Core</AssemblyReference>
-      <AssemblyReference>System.Runtime.DurableInstancing</AssemblyReference>
-      <AssemblyReference>System.WorkflowServices</AssemblyReference>
-      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
       <AssemblyReference>ATM.Strategies.Workflows</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Flowchart sap2010:WorkflowViewState.IdRef="Flowchart_1" StartNode="{x:Reference __ReferenceID1}">
-    <FlowStep x:Name="__ReferenceID1" sap2010:WorkflowViewState.IdRef="FlowStep_2">
-      <local:SMA sap2010:WorkflowViewState.IdRef="SMA_1">
-        <local:SMA.inputArray>
-          <InArgument x:TypeArguments="s:Double[]">
-            <mca:CSharpValue x:TypeArguments="s:Double[]">inputArray</mca:CSharpValue>
-          </InArgument>
-        </local:SMA.inputArray>
-        <local:SMA.result>
-          <OutArgument x:TypeArguments="s:Double[]">
-            <mca:CSharpReference x:TypeArguments="s:Double[]">result</mca:CSharpReference>
-          </OutArgument>
-        </local:SMA.result>
-        <local:SMA.timePeriod>
-          <InArgument x:TypeArguments="x:Int32">
-            <mca:CSharpValue x:TypeArguments="x:Int32">timePeriod</mca:CSharpValue>
-          </InArgument>
-        </local:SMA.timePeriod>
-      </local:SMA>
-      <FlowStep.Next>
-        <FlowStep x:Name="__ReferenceID0" sap2010:WorkflowViewState.IdRef="FlowStep_1">
-          <Persist sap2010:WorkflowViewState.IdRef="Persist_1" />
-        </FlowStep>
-      </FlowStep.Next>
-    </FlowStep>
+  <Flowchart sap2010:WorkflowViewState.IdRef="Flowchart_1">
+    <Flowchart.StartNode>
+      <FlowStep x:Name="__ReferenceID0" sap2010:WorkflowViewState.IdRef="FlowStep_2">
+        <local:SMA sap2010:WorkflowViewState.IdRef="SMA_1">
+          <local:SMA.inputArray>
+            <InArgument x:TypeArguments="s:Double[]">
+              <mca:CSharpValue x:TypeArguments="s:Double[]">inputArray</mca:CSharpValue>
+            </InArgument>
+          </local:SMA.inputArray>
+          <local:SMA.result>
+            <OutArgument x:TypeArguments="s:Double[]">
+              <mca:CSharpReference x:TypeArguments="s:Double[]">result</mca:CSharpReference>
+            </OutArgument>
+          </local:SMA.result>
+          <local:SMA.timePeriod>
+            <InArgument x:TypeArguments="x:Int32">
+              <mca:CSharpValue x:TypeArguments="x:Int32">timePeriod</mca:CSharpValue>
+            </InArgument>
+          </local:SMA.timePeriod>
+        </local:SMA>
+        <FlowStep.Next>
+          <FlowStep x:Name="__ReferenceID2" sap2010:WorkflowViewState.IdRef="FlowStep_3">
+            <local:HandleQuote Quote="{x:Null}" sap2010:WorkflowViewState.IdRef="HandleQuote_1">
+              <local:HandleQuote.Quotes>
+                <InArgument x:TypeArguments="s:Double[]">
+                  <mca:CSharpValue x:TypeArguments="s:Double[]">result</mca:CSharpValue>
+                </InArgument>
+              </local:HandleQuote.Quotes>
+              <local:HandleQuote.Result>
+                <OutArgument x:TypeArguments="s:Double[]">
+                  <mca:CSharpReference x:TypeArguments="s:Double[]">result</mca:CSharpReference>
+                </OutArgument>
+              </local:HandleQuote.Result>
+            </local:HandleQuote>
+            <FlowStep.Next>
+              <FlowStep x:Name="__ReferenceID1" sap2010:WorkflowViewState.IdRef="FlowStep_1">
+                <Persist sap2010:WorkflowViewState.IdRef="Persist_1" />
+              </FlowStep>
+            </FlowStep.Next>
+          </FlowStep>
+        </FlowStep.Next>
+      </FlowStep>
+    </Flowchart.StartNode>
     <x:Reference>__ReferenceID0</x:Reference>
-    <sads:DebugSymbol.Symbol>d0RDOlxQcm9qZWN0c1xQcm90b3R5cGVzXEFUTVxBVE0uU3RyYXRlZ2llcy5Xb3JrZmxvd3NcUGVyc2lzdGVuY2UueGFtbAYzA04PAgEBNQdFEwIBA0gLSEICAQJCDUJUAgEMPQ09WwIBCDgNOFcCAQQ=</sads:DebugSymbol.Symbol>
+    <x:Reference>__ReferenceID1</x:Reference>
+    <x:Reference>__ReferenceID2</x:Reference>
+    <sads:DebugSymbol.Symbol>d0RDOlxQcm9qZWN0c1xQcm90b3R5cGVzXEFUTVxBVE0uU3RyYXRlZ2llcy5Xb3JrZmxvd3NcUGVyc2lzdGVuY2UueGFtbAkzA2IPAgEBNglGFQIBDEkNVCECAQNXEVdIAgECQw9DVgIBFT4PPl0CARE5DzlZAgENTBNMWQIBCFETUWECAQQ=</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
       <sap2010:ViewStateData Id="SMA_1" sap:VirtualizedContainerService.HintSize="200,22">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="HandleQuote_1" sap:VirtualizedContainerService.HintSize="200,22">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -95,8 +122,17 @@
       <sap2010:ViewStateData Id="FlowStep_1">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
-            <av:Point x:Key="ShapeLocation">200,199</av:Point>
+            <av:Point x:Key="ShapeLocation">200,279</av:Point>
             <av:Size x:Key="ShapeSize">200,22</av:Size>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_3">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,209</av:Point>
+            <av:Size x:Key="ShapeSize">200,22</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">300,231 300,279</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
@@ -105,7 +141,7 @@
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <av:Point x:Key="ShapeLocation">200,129</av:Point>
             <av:Size x:Key="ShapeSize">200,22</av:Size>
-            <av:PointCollection x:Key="ConnectorLocation">300,151 300,199</av:PointCollection>
+            <av:PointCollection x:Key="ConnectorLocation">300,151 300,209</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>

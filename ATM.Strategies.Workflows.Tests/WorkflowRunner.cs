@@ -59,22 +59,27 @@ namespace ATM.Strategies.Workflows.Tests
                 {
                     return PersistableIdleAction.Persist;
                 };
+            wfa.Idle += (args) =>
+                {
+                    var x = "Y";
+                };
             wfa.Completed += (args) =>
                 {
                     //Assert.IsFalse(true);
                 };
-
-            wfa.TestWorkflowApplication.Run(new TimeSpan(1000));
-            wfa.WaitForCompletedEvent(new TimeSpan(10000));
-            wfa.Persist(new TimeSpan(1000000000000));
-            
+           
+            wfa.TestActivity();
+            wfa.WaitForPersistableIdleEvent();
+            wfa.Persist();
+        
+       
             
         }
 
         [TestMethod]
         public void TestLoad()
         {
-            var id = new Guid("154ccec7-6a32-4faf-827d-e65bd97bbb50");
+            var id = new Guid("f446e62b-1aa5-470e-8a79-600bf283c8b4");
             IDataService ds = new RavenDataService();
             IWorkflowInstanceService workflowInstanceService = new WorkflowInstanceService(ds);
             var store = new WorkflowInstanceStore(workflowInstanceService,id);
@@ -110,13 +115,14 @@ namespace ATM.Strategies.Workflows.Tests
       //var um = new DynamicUpdateMap();
             
            wfa.TestWorkflowApplication.Load(id);
-        
-          
-            
-           wfa.TestWorkflowApplication.Run();
-           //wfa.WaitForCompletedEvent(new TimeSpan(10000));
-          // wfa.Persist(new TimeSpan(10000000));
 
+
+            
+           var result = wfa.TestWorkflowApplication.ResumeBookmark("NextQuote",1.31d);
+
+           System.Threading.Thread.Sleep(10000);
+          // wfa.Persist(new TimeSpan(10000000));
+           
            
         }
     }
