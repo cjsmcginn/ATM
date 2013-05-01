@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace ATM.Core.Services
@@ -32,10 +33,9 @@ namespace ATM.Core.Services
 
         public WorkflowInstance CreateWorkflowInstance(Guid id)
         {
-            var doc = new XDocument();
-            var instanceValues = new XElement("InstanceValues");
-            doc.Add(instanceValues);
-            var result = new WorkflowInstance { Id = id.ToString(), InstanceData=doc.ToString() };
+            //var doc = new XmlDocument();
+            //doc.LoadXml("<InstanceValues/>");           
+            var result = new WorkflowInstance { Id = id.ToString()};
             return result;
         }
 

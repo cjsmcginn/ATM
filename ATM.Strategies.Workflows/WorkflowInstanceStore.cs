@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using System.Workflow.Runtime.Hosting;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Serialization;
+
 
 namespace ATM.Strategies.Workflows
 {
@@ -32,99 +34,97 @@ namespace ATM.Strategies.Workflows
             _workflowInstanceService = workflowInstanceService;
             ownerInstanceID = id;
         }
+        //Synchronous version of the Begin/EndTryCommand functions
+        protected override bool TryCommand(InstancePersistenceContext context, InstancePersistenceCommand command, TimeSpan timeout)
+        {
+            return EndTryCommand(BeginTryCommand(context, command, timeout, null, null));
+        }
 
+        //The persistence engine will send a variety of commands to the configured InstanceStore,
+        //such as CreateWorkflowOwnerCommand, SaveWorkflowCommand, and LoadWorkflowCommand.
+        //This method is where we will handle those commands
         protected override IAsyncResult BeginTryCommand(InstancePersistenceContext context, InstancePersistenceCommand command, TimeSpan timeout, AsyncCallback callback, object state)
         {
-            
-            IDictionary<XName, InstanceValue> data = null;
+            IDictionary<System.Xml.Linq.XName, InstanceValue> data = null;
+
             //The CreateWorkflowOwner command instructs the instance store to create a new instance owner bound to the instanace handle
             if (command is CreateWorkflowOwnerCommand)
             {
                 context.BindInstanceOwner(ownerInstanceID, Guid.NewGuid());
-            }//The SaveWorkflow command instructs the instance store to modify the instance bound to the instance handle or an instance key
+            }
+            //The SaveWorkflow command instructs the instance store to modify the instance bound to the instance handle or an instance key
             else if (command is SaveWorkflowCommand)
             {
                 SaveWorkflowCommand saveCommand = (SaveWorkflowCommand)command;
                 data = saveCommand.InstanceData;
+
                 Save(data);
-            }//The LoadWorkflow command instructs the instance store to lock and load the instance bound to the identifier in the instance handle
+            }
+            //The LoadWorkflow command instructs the instance store to lock and load the instance bound to the identifier in the instance handle
             else if (command is LoadWorkflowCommand)
             {
-                //string fileName = IOHelper.GetFileName(this.ownerInstanceID);
-                var instance = _workflowInstanceService.GetById(ownerInstanceID);
+                
+                var instance = _workflowInstanceService.GetById(this.ownerInstanceID);
+
                 try
                 {
-                    data = LoadInstanceData(XDocument.Parse(instance.InstanceData));
-                    context.LoadedInstance(InstanceState.Initialized, data, null, null, null);
+                   
+                        data = LoadInstanceData(instance.InstanceData);
+                        //load the data into the persistence Context
+                        context.LoadedInstance(InstanceState.Initialized, data, null, null, null);
+                    
                 }
                 catch (Exception exception)
                 {
-                    
-                  throw new PersistenceException(exception.Message);
-         
+                    throw new PersistenceException(exception.Message);
                 }
             }
+
             return new CompletedAsyncResult<bool>(true, callback, state);
         }
+
         protected override bool EndTryCommand(IAsyncResult result)
         {
             return CompletedAsyncResult<bool>.End(result);
         }
-        #region Class Methods
-        //Saves the persistence data to an xml file.
-        void Save(IDictionary<XName, InstanceValue> instanceData)
-        {     
-            var instance = _workflowInstanceService.GetById(ownerInstanceID);
-            if (instance == null)            
-                instance = _workflowInstanceService.CreateWorkflowInstance(ownerInstanceID);
-            var doc = XDocument.Parse(instance.InstanceData);
-            XElement instanceValues = doc.Element("InstanceValues");
-
-            foreach (KeyValuePair<XName, InstanceValue> valPair in instanceData)
-            {
-                XElement newInstance = new XElement("InstanceValue"); //doc.CreateElement("InstanceValue");
-
-                XElement newKey = SerializeObject("key", valPair.Key);
-                newInstance.Add(newKey);
-
-                XElement newValue = SerializeObject("value", valPair.Value.Value);
-                newInstance.Add(newValue);
-
-                instanceValues.Add(newInstance);
-                instance.InstanceData = instanceValues.ToString();
-            }
-            _workflowInstanceService.Save(instance);
-        }
 
         //Reads data from xml file and creates a dictionary based off of that.
-        IDictionary<XName, InstanceValue> LoadInstanceData(XDocument doc)
+        IDictionary<System.Xml.Linq.XName, InstanceValue> LoadInstanceData(string content)
         {
-            IDictionary<XName, InstanceValue> data = new Dictionary<XName, InstanceValue>();
+            IDictionary<System.Xml.Linq.XName, InstanceValue> data = new Dictionary<System.Xml.Linq.XName, InstanceValue>();
 
             NetDataContractSerializer s = new NetDataContractSerializer();
-            var instances = doc.Descendants("InstanceValue");
-            foreach (XElement instanceElement in instances)
-            {
-                XElement keyElement = instanceElement.Element("key"); //(XmlElement)instanceElement.SelectSingleNode("descendant::key");
-                XName key = (XName)DeserializeObject(s, keyElement);
+            var stringBuilder = new StringBuilder();
+            var sReader = new StringReader(content);
+           
+            XmlReader rdr = XmlReader.Create(sReader);
+            XmlDocument doc = new XmlDocument();
+            doc.Load(rdr);
 
-                XElement valueElement = instanceElement.Element("value");//instanceElement.SelectSingleNode("descendant::value");
+            XmlNodeList instances = doc.GetElementsByTagName("InstanceValue");
+            foreach (XmlElement instanceElement in instances)
+            {
+                XmlElement keyElement = (XmlElement)instanceElement.SelectSingleNode("descendant::key");
+                System.Xml.Linq.XName key = (System.Xml.Linq.XName)DeserializeObject(s, keyElement);
+
+                XmlElement valueElement = (XmlElement)instanceElement.SelectSingleNode("descendant::value");
                 object value = DeserializeObject(s, valueElement);
                 InstanceValue instVal = new InstanceValue(value);
+
                 data.Add(key, instVal);
             }
 
             return data;
         }
-        object DeserializeObject(NetDataContractSerializer serializer, XElement element)
+
+        object DeserializeObject(NetDataContractSerializer serializer, XmlElement element)
         {
             object deserializedObject = null;
 
             MemoryStream stm = new MemoryStream();
-            //var x = new StringReader(element.ToString());
-            var sb = new StringBuilder();
-            var wtr = XmlWriter.Create(sb);
-            element.WriteTo(wtr);
+            XmlDictionaryWriter wtr = XmlDictionaryWriter.CreateTextWriter(stm);
+          
+            element.WriteContentTo(wtr);
             wtr.Flush();
             stm.Position = 0;
 
@@ -132,20 +132,48 @@ namespace ATM.Strategies.Workflows
 
             return deserializedObject;
         }
-        XElement SerializeObject(string elementName, object o)
+
+        //Saves the persistance data to an xml file.
+        void Save(IDictionary<System.Xml.Linq.XName, InstanceValue> instanceData)
         {
-            XElement result = null;
-            NetDataContractSerializer s = new NetDataContractSerializer();
-            result = new XElement(elementName);//doc.CreateElement(elementName);
+            //string fileName = IOHelper.GetFileName(this.ownerInstanceID);
+            var instance = _workflowInstanceService.GetById(this.ownerInstanceID);
+            if (instance == null)
+                instance = _workflowInstanceService.CreateWorkflowInstance(this.ownerInstanceID);
             
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml("<InstanceValues/>");
+
+            foreach (KeyValuePair<System.Xml.Linq.XName, InstanceValue> valPair in instanceData)
+            {
+                XmlElement newInstance = doc.CreateElement("InstanceValue");
+
+                XmlElement newKey = SerializeObject("key", valPair.Key, doc);
+                newInstance.AppendChild(newKey);
+
+                XmlElement newValue = SerializeObject("value", valPair.Value.Value, doc);
+                newInstance.AppendChild(newValue);
+
+                doc.DocumentElement.AppendChild(newInstance);
+            }
+            doc.GetElementsByTagName("WorkflowInstanceId")[0].InnerText = this.ownerInstanceID.ToString();
+            instance.InstanceData = doc.OuterXml;
+            _workflowInstanceService.Save(instance);
+        }
+
+        XmlElement SerializeObject(string elementName, object o, XmlDocument doc)
+        {
+            NetDataContractSerializer s = new NetDataContractSerializer();
+            XmlElement newElement = doc.CreateElement(elementName);
             MemoryStream stm = new MemoryStream();
 
             s.Serialize(stm, o);
             stm.Position = 0;
             StreamReader rdr = new StreamReader(stm);
-            result.Add(XElement.Parse(rdr.ReadToEnd()));
-            return result;
+            newElement.InnerXml = rdr.ReadToEnd();
+
+            return newElement;
         }
-        #endregion
+
     }
 }

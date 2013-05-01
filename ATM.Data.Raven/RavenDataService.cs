@@ -5,16 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Raven.Client.Document;
+using Raven.Imports.Newtonsoft.Json;
 namespace ATM.Data.Raven
 {
     public class RavenDataService : IDataService
     {
-        static string DbUrl = "http://windows8:8888/";
+        static string DbUrl = "http://windows8:8892/";
         static void InitializeStore(DocumentStore documentStore)
         {
             documentStore.Url = DbUrl;
             documentStore.DefaultDatabase = "Commerce";
+            //documentStore.Conventions = new DocumentConvention
+            //{
+            //    CustomizeJsonSerializer=(s)=>
+            //        {
+            //            s.                       
+            //        }
+            //};
+         
             //documentStore.RegisterListener(new UniqueConstraintsStoreListener());
+           
             documentStore.Initialize();
         }
         public void Save<T>(T entity)
@@ -26,6 +36,7 @@ namespace ATM.Data.Raven
                 InitializeStore(documentStore);
                 using (var session = documentStore.OpenSession())
                 {
+            
                     session.Store(entity);
                     session.SaveChanges();
                 }
@@ -33,6 +44,7 @@ namespace ATM.Data.Raven
 
 
         }
+   
         public T Load<T>(Guid id)
         {
             Func<DocumentSession, T> execution = (session) =>

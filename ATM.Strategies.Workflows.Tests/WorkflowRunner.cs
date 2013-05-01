@@ -7,6 +7,7 @@ using Microsoft.VisualBasic.Activities;
 using System.Activities;
 using ATM.Core.Services;
 using ATM.Data.Raven;
+using System.Activities.DynamicUpdate;
 
 namespace ATM.Strategies.Workflows.Tests
 {
@@ -62,10 +63,10 @@ namespace ATM.Strategies.Workflows.Tests
                 {
                     //Assert.IsFalse(true);
                 };
-           
-            wfa.TestActivity();
-            wfa.WaitForCompletedEvent(new TimeSpan(100000000));
-            //wfa.Persist(new TimeSpan(100000));
+
+            wfa.TestWorkflowApplication.Run(new TimeSpan(1000));
+            wfa.WaitForCompletedEvent(new TimeSpan(10000));
+            wfa.Persist(new TimeSpan(1000000000000));
             
             
         }
@@ -73,16 +74,48 @@ namespace ATM.Strategies.Workflows.Tests
         [TestMethod]
         public void TestLoad()
         {
-            var id = new Guid("5da8d0ca-92ad-4d28-b6e3-45fc22fdd94e");
+            var id = new Guid("154ccec7-6a32-4faf-827d-e65bd97bbb50");
             IDataService ds = new RavenDataService();
             IWorkflowInstanceService workflowInstanceService = new WorkflowInstanceService(ds);
             var store = new WorkflowInstanceStore(workflowInstanceService,id);
-            var activity = new ATM.Strategies.Workflows.Persistence();
 
+            Dictionary<string, object> inputs = new Dictionary<string, object>();
+            var activity = new ATM.Strategies.Workflows.Persistence();
             
-            var wfa = WorkflowApplicationTest.Create<ATM.Strategies.Workflows.Persistence>(activity);
-            wfa.InstanceStore = store;
-            wfa.Load(id, new TimeSpan(1000));
+           var wfa = WorkflowApplicationTest.Create<ATM.Strategies.Workflows.Persistence>(activity);
+        
+          
+     
+            wfa.TestWorkflowApplication.InstanceStore = store;
+            wfa.PersistableIdle += (args) =>
+            {
+                return PersistableIdleAction.Persist;
+            };
+            wfa.Completed += (args) =>
+            {
+                Assert.IsFalse(true);
+            };
+            wfa.Idle += (args) =>
+                {
+                };
+            wfa.OnUnhandledException = (a) =>
+                {
+                    Console.Write(a.UnhandledException.Message);
+                    return UnhandledExceptionAction.Abort;
+                };
+            wfa.Completed += (args) =>
+            {
+                //Assert.IsFalse(true);
+            };
+      //var um = new DynamicUpdateMap();
+            
+           wfa.TestWorkflowApplication.Load(id);
+        
+          
+            
+           wfa.TestWorkflowApplication.Run();
+           //wfa.WaitForCompletedEvent(new TimeSpan(10000));
+          // wfa.Persist(new TimeSpan(10000000));
 
            
         }
