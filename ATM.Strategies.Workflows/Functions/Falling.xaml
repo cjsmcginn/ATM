@@ -1,4 +1,4 @@
-﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="ATM.Strategies.Workflows.SMA"
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="ATM.Strategies.Workflows.Functions.Falling" this:Falling.period="0"
  xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
  xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
@@ -7,14 +7,15 @@
  xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
  xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
  xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:this="clr-namespace:ATM.Strategies.Workflows.Functions"
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
-    <x:Property Name="inputArray" Type="InArgument(s:Double[])" />
-    <x:Property Name="timePeriod" Type="InArgument(x:Int32)" />
-    <x:Property Name="result" Type="OutArgument(s:Double[])" />
+    <x:Property Name="series" Type="InArgument(s:Double[])" />
+    <x:Property Name="period" Type="InArgument(x:Int32)" />
+    <x:Property Name="result" Type="OutArgument(x:Boolean)" />
   </x:Members>
   <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
-  <sap2010:WorkflowViewState.IdRef>ATM.Strategies.Workflows.Activity1_1</sap2010:WorkflowViewState.IdRef>
+  <sap2010:WorkflowViewState.IdRef>ATM.Strategies.Workflows.Functions.Rising_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
       <x:String>System</x:String>
@@ -32,36 +33,37 @@
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>System.Core</AssemblyReference>
       <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Runtime.DurableInstancing</AssemblyReference>
       <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
       <AssemblyReference>System.ServiceModel</AssemblyReference>
       <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.WorkflowServices</AssemblyReference>
       <AssemblyReference>System.Xaml</AssemblyReference>
       <AssemblyReference>System.Xml</AssemblyReference>
       <AssemblyReference>System.Xml.Linq</AssemblyReference>
-      <AssemblyReference>ATM.Core</AssemblyReference>
       <AssemblyReference>TA-Lib-Core</AssemblyReference>
+      <AssemblyReference>ATM.Core</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
       <AssemblyReference>ATM.Strategies.Workflows</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Assign DisplayName="Assign SMA">
+  <Assign DisplayName="Assign Falling" sap2010:WorkflowViewState.IdRef="Assign_1">
     <Assign.To>
-      <OutArgument x:TypeArguments="s:Double[]">
-        <mca:CSharpReference x:TypeArguments="s:Double[]">result</mca:CSharpReference>
+      <OutArgument x:TypeArguments="x:Boolean">
+        <mca:CSharpReference x:TypeArguments="x:Boolean">result</mca:CSharpReference>
       </OutArgument>
     </Assign.To>
     <Assign.Value>
-      <InArgument x:TypeArguments="s:Double[]">
-        <mca:CSharpValue x:TypeArguments="s:Double[]">inputArray.SMA(timePeriod)</mca:CSharpValue>
+      <InArgument x:TypeArguments="x:Boolean">
+        <mca:CSharpValue x:TypeArguments="x:Boolean">series.Falling(period)</mca:CSharpValue>
       </InArgument>
     </Assign.Value>
-    <sap2010:WorkflowViewState.IdRef>Assign_2</sap2010:WorkflowViewState.IdRef>
-    <sads:DebugSymbol.Symbol>dzxDOlxQcm9qZWN0c1xQcm90b3R5cGVzXEFUTVxBVE0uU3RyYXRlZ2llcy5Xb3JrZmxvd3NcU01BLnhhbWwDLwM8DAIBATcJN2MCAQYyCTJXAgEC</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d0pDOlxQcm9qZWN0c1xQcm90b3R5cGVzXEFUTVxBVE0uU3RyYXRlZ2llcy5Xb3JrZmxvd3NcRnVuY3Rpb25zXEZhbGxpbmcueGFtbAQBdAF2AQIyAz4MAgEBOgk6XgIBBjUJNVYCAQI=</sads:DebugSymbol.Symbol>
   </Assign>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
-      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="242,62" />
-      <sap2010:ViewStateData Id="ATM.Strategies.Workflows.Activity1_1" sap:VirtualizedContainerService.HintSize="282,142" />
+      <sap2010:ViewStateData Id="Assign_1" sap:VirtualizedContainerService.HintSize="242,62" />
+      <sap2010:ViewStateData Id="ATM.Strategies.Workflows.Functions.Rising_1" sap:VirtualizedContainerService.HintSize="282,142" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>

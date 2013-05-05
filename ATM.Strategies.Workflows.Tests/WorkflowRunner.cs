@@ -8,7 +8,7 @@ using System.Activities;
 using ATM.Core.Services;
 using ATM.Data.Raven;
 using System.Activities.DynamicUpdate;
-
+using ATM.Strategies.Workflows.Tests.TestWorkflows;
 namespace ATM.Strategies.Workflows.Tests
 {
     [TestClass]
@@ -124,6 +124,24 @@ namespace ATM.Strategies.Workflows.Tests
           // wfa.Persist(new TimeSpan(10000000));
            
            
+        }
+
+        [TestMethod]
+        public void CrossesTest()
+        {
+            var activity = new Crosses();
+            var wfa = WorkflowApplicationTest.Create<Crosses>(activity);
+            Exception exception = null;
+            wfa.OnUnhandledException = (a) =>
+                {
+                    exception = a.UnhandledException;
+                    return UnhandledExceptionAction.Terminate;
+                    
+                };
+            
+            wfa.TestActivity();
+            wfa.WaitForCompletedEvent();
+            Assert.IsNull(exception,exception==null?"Exception Occurred":exception.Message);
         }
     }
 }

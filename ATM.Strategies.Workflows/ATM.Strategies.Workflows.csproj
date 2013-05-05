@@ -54,7 +54,6 @@
     <Compile Include="CompletedAsyncResult.cs" />
     <Compile Include="HandleQuote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TAExtensions.cs" />
     <Compile Include="WorkflowInstanceStore.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +70,30 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="Persistence.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Functions\Rising.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Functions\Falling.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Functions\CrossOver.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="Functions\CrossUnder.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

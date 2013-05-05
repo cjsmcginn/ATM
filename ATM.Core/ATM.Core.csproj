@@ -44,11 +44,16 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TA-Lib-Core">
+      <HintPath>..\Dependencies\ta-lib-0.4.0-msvc\ta-lib\dotnet\src\Release\TA-Lib-Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Quote.cs" />
     <Compile Include="Domain\WorkflowInstance.cs" />
     <Compile Include="Extensions\DomainExtensions.cs" />
+    <Compile Include="Extensions\MathExtensions.cs" />
+    <Compile Include="Extensions\TAExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IDataService.cs" />
     <Compile Include="Services\IQuoteService.cs" />
